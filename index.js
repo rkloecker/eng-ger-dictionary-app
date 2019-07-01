@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 require("dotenv").config();
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 5000;
 
 app.use(express.static(__dirname + "/client"));
 app.use(bodyParser.json());
@@ -24,10 +24,10 @@ const Word = require("./models/word");
 // Connect to Mongoose
 const mongoURI = process.env.MLABKEY;
 
-mongoose.connect(
-  mongoURI,
-  { useNewUrlParser: true }
-);
+mongoose.connect(mongoURI, { useNewUrlParser: true });
+// mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var db = mongoose.connection;
 
 //check valid with regex
@@ -41,23 +41,39 @@ app.get("/", (req, res) => {
 
 //READ All records  or query if there is a query string
 app.get("/api/words", (req, res) => {
+  console.log(req.query);
+  let limit = 10;
+  if (req.query.limit) {
+    limit = +req.query.limit;
+  }
+
   if (req.query.sort) {
     // split req str e.g. ?sort=english:desc to {english:'desc'}
+
     const s = req.query.sort.split(":");
     const q = { [s[0]]: s[1] };
-    Word.getWordSorted(q, (err, word) => {
-      if (err) {
-        throw err;
-      }
-      res.json(word);
-    });
+
+    Word.getWordSorted(
+      q,
+      (err, word) => {
+        if (err) {
+          throw err;
+        }
+        res.json(word);
+      },
+      limit
+    );
   } else if (req.query.description) {
-    Word.getManyWords(req.query, (err, word) => {
-      if (err) {
-        throw err;
-      }
-      res.json(word);
-    });
+    Word.getManyWords(
+      req.query,
+      (err, word) => {
+        if (err) {
+          throw err;
+        }
+        res.json(word);
+      },
+      limit
+    );
   } else if (req.query.english || req.query.german) {
     Word.getSingleWord(req.query, (err, word) => {
       if (err) {
@@ -109,6 +125,7 @@ app.post("/api/words", (req, res) => {
   });
 });
 
+// VERY IMPORTANT FINDONEANDUPDATE RETURN OLD NOT NEW vALUE!!! add {new: true} to change
 //UPDATE - use PUT when sending the whole entity - use PATCH when sending only fields that changed
 app.put("/api/words/:_id", (req, res) => {
   if (!req.body) {
@@ -118,7 +135,7 @@ app.put("/api/words/:_id", (req, res) => {
   if (!word.english || !word.german || !word.description) {
     return console.log("no eng or no german or no description");
   }
-  Word.updateWord(req.params._id, word, {}, (err, word) => {
+  Word.updateWord(req.params._id, word, { new: true }, (err, word) => {
     if (err) {
       throw err;
     }
