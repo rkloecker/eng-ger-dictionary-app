@@ -2,9 +2,7 @@
 
 ## Backend using Express - Mongoose - MLAB
 
-## Frontend using Vanilla JS, Bootstrap 3, Font Awesome (client folder)
-
-## [Deployed to heroku](https://eng-ger-dictio.herokuapp.com/) 
+[branch for react-hooks-dictio](https://github.com/rkloecker/react-hooks-dictio)
 
 # Getting started
 
