@@ -1,12 +1,12 @@
-## English German Dictionary App
+# English German Dictionary App
 
-# Backend using Express - Mongoose - Mongo Atlas
+## Backend using Express - Mongoose - Mongo Atlas
 
-# Frontend using Vanilla JS, Bootstrap 3, Font Awesome (client folder)
+### Frontend using Vanilla JS, Bootstrap 3, Font Awesome (client folder)
 
 ## [Deployed to heroku](https://eng-ger-dictio.herokuapp.com/)
 
-# Getting started
+### Getting started
 
 To get the app running:
 
