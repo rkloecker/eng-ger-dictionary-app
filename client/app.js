@@ -22,7 +22,7 @@ let directParam = "desc";
 // ID necessary for editing (handleClick, fillInputFields)
 let theId;
 // API calls go to ... + ...
-const file = "https://gentle-harbor-35851.herokuapp.com/api/words";
+const file = "https://eng-ger-dictio.herokuapp.com/api/words";
 
 // ASC or DESC
 function changeDirection() {

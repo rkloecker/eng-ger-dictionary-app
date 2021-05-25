@@ -4,7 +4,7 @@
 
 ## Frontend using Vanilla JS, Bootstrap 3, Font Awesome (client folder)
 
-## [Deployed to heroku](https://gentle-harbor-35851.herokuapp.com/)
+## [Deployed to heroku](https://eng-ger-dictio.herokuapp.com/)
 
 # Getting started
 
