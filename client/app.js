@@ -22,7 +22,7 @@ let directParam = "desc";
 // ID necessary for editing (handleClick, fillInputFields)
 let theId;
 // API calls go to ... + ...
-const file = "https://eng-ger-dictio.herokuapp.com/api/words";
+const file = "https://gentle-harbor-35851.herokuapp.com/api/words";
 
 // ASC or DESC
 function changeDirection() {
@@ -44,7 +44,7 @@ function handleClick(e) {
   const obj = {
     english: eng.value,
     german: ger.value.split(","),
-    description: des.value || "unknown"
+    description: des.value || "unknown",
   };
   const target = e.target.id;
   if (target == "btnSubmit") {
@@ -82,9 +82,9 @@ function handleClick(e) {
 //FETCH Functions
 function readDict() {
   fetch(file)
-    .then(response => response.json())
+    .then((response) => response.json())
     .then(show)
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 }
@@ -92,39 +92,39 @@ function readDict() {
 function sortedBy(e) {
   const str = file + "/?sort=" + e.target.id + `:${directParam}`;
   fetch(str)
-    .then(response => response.json())
+    .then((response) => response.json())
     .then(show)
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function addToDict(opts, theFile) {
   fetch(theFile, {
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     method: "POST",
-    body: JSON.stringify(opts)
+    body: JSON.stringify(opts),
   })
     .then(() => fetch(file))
-    .then(response => response.json())
+    .then((response) => response.json())
     .then(show)
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function updateToDict(opts, theFile) {
   fetch(theFile, {
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     method: "PUT",
-    body: JSON.stringify(opts)
+    body: JSON.stringify(opts),
   })
     .then(() => fetch(file))
-    .then(response => response.json())
+    .then((response) => response.json())
     .then(show)
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function getQuery() {
@@ -136,14 +136,14 @@ function getQuery() {
   } else if (des.value) {
     qstr += `description=${des.value}`;
     return fetch(file + qstr)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then(show)
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
   fetch(file + qstr)
-    .then(response => response.json())
-    .then(data => show(data ? [data] : []))
-    .catch(err => console.log(err));
+    .then((response) => response.json())
+    .then((data) => show(data ? [data] : []))
+    .catch((err) => console.log(err));
 }
 
 // Output data to screen
@@ -160,15 +160,13 @@ function show(data) {
 		</tr>
 	</thead>
 	<tbody>`;
-  data.forEach(element => {
+  data.forEach((element) => {
     text += `
 		<tr>
 			<td>${element.english}</td>
 			<td> ${element.german}</td>
 			<td>${element.description}</td>
-			<td><div id="${
-        element._id
-      }"><button onclick="edit(event)" class="btn btn-success"><i class="far fa-sm">&#xf044;</i></button>
+			<td><div id="${element._id}"><button onclick="edit(event)" class="btn btn-success"><i class="far fa-sm">&#xf044;</i></button>
 			<button onclick="deleteMe(event)" class="btn btn-danger"><i class="far fa-sm">&#xf2ed;</i></button></div></td>
 		</tr>
 		`;
@@ -209,12 +207,12 @@ function deleteMe(e) {
   btnSubmit.classList.remove("disabled");
   clearFields();
   fetch(file + "/" + e.currentTarget.parentElement.id, {
-    method: "DELETE"
+    method: "DELETE",
   })
     .then(() => fetch(file))
-    .then(response => response.json())
+    .then((response) => response.json())
     .then(show)
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 function edit(e) {
@@ -222,7 +220,7 @@ function edit(e) {
   window.location.hash = "example";
   btnSubmit.classList.add("disabled");
   fetch(file + "/" + e.currentTarget.parentElement.id)
-    .then(response => response.json())
+    .then((response) => response.json())
     .then(fillInputFields)
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
